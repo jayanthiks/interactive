@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta charset='UTF-8'>
+    <title>Text Input Example</title>
+  </head>
+  <body>
+    <h2>Tell Us What You Think</h2>
+    <form id='textForm'>
+      <label for='dashboard'>Dashboard Name</label><br><br>
+      <input type='text' id='dashboard' name='dashboard' placeholder='Type dashboard name'><br><br>
+      <label for='querries'>How can we Make this better for You?</label><br><br>
+      <input type='text' id='querries' name='querries' placeholder='Your Thoughts'><br><br>
+      <label for='feedback'>Your Thoughts</label><br><br>
+      <input type='text' id='feedback' name='feedback' placeholder='Your feedback'><br><br>
+      <button type='submit'>Submit</button>
+    </form>
+    <p id='displayText'></p>
+    <script>
+      document.getElementById('textForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var dashboardValue = document.getElementById('dashboard').value;
+        var querriesValue = document.getElementById('querries').value;
+        var feedbackValue = document.getElementById('feedback').value;
+        document.getElementById('displayText').textContent = 'Dashboard Name: ' + dashboardValue + ' | Thoughts: ' + querriesValue + ' | Feedback: ' + feedbackValue;
+        var formData = new FormData();
+        formData.append('dashboard', dashboardValue);
+        formData.append('querries', querriesValue);
+        formData.append('feedback', feedbackValue);
+        fetch('https://script.google.com/a/macros/freshworks.com/s/AKfycbxcDFJsmwYGAH5Vz_x2HzAEsahrhKXOQrGIn9to3B_655i8CvbYrKVsB64R48dtzzGO/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          alert('Thank you for your feedback!');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('There was an error submitting your feedback.');
+        });
+      });
+    </script>
+  </body>
+</html>
